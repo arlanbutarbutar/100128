@@ -1,4 +1,3 @@
-
 <nav class="sidebar sidebar-offcanvas shadow" style="background-color: rgb(3, 164, 237);" id="sidebar">
   <ul class="nav">
     <li class="nav-item">
@@ -14,7 +13,32 @@
         <span class="menu-title">Users</span>
       </a>
     </li>
+    <li class="nav-item nav-category">Kelola Data Wikisuku</li>
+    <li class="nav-item">
+      <a class="nav-link" style="cursor: pointer;" onclick="window.location.href='kegiatan'">
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+        <span class="menu-title">Kegiatan</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" style="cursor: pointer;" onclick="window.location.href='sub-kegiatan'">
+        <i class="mdi mdi-format-list-bulleted-type menu-icon"></i>
+        <span class="menu-title">Sub Kegiatan</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" style="cursor: pointer;" onclick="window.location.href='artikel'">
+        <i class="mdi mdi-newspaper menu-icon"></i>
+        <span class="menu-title">Artikel</span>
+      </a>
+    </li>
     <li class="nav-item nav-category"></li>
+    <li class="nav-item">
+      <a class="nav-link" style="cursor: pointer;" onclick="window.location.href='icons'">
+        <i class="mdi mdi-face-profile menu-icon"></i>
+        <span class="menu-title">Icons</span>
+      </a>
+    </li>
     <li class="nav-item">
       <a class="nav-link" style="cursor: pointer;" onclick="window.location.href='../auth/signout'">
         <i class="mdi mdi-logout-variant menu-icon"></i>

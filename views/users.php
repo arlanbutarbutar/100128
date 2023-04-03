@@ -177,7 +177,7 @@ $_SESSION["page-url"] = "users";
                 </div>
                 <div class="modal-footer border-top-0 justify-content-center">
                   <button type="button" class="btn btn-secondary btn-sm rounded-0" data-bs-dismiss="modal">Batal</button>
-                  <button type="submit" name="tambah-user" class="btn btn-primary btn-sm rounded-0">Simpan</button>
+                  <button type="submit" name="tambah-user" class="btn btn-primary btn-sm rounded-0 border-0">Simpan</button>
                 </div>
               </form>
             </div>

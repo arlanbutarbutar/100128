@@ -1,5 +1,4 @@
-<?php
-if (!isset($_SESSION[""])) {
+<?php if (!isset($_SESSION[""])) {
   session_start();
 }
 error_reporting(~E_NOTICE & ~E_DEPRECATED);
@@ -25,8 +24,41 @@ if (isset($_SESSION["time-message"])) {
     unset($_SESSION["time-alert"]);
   }
 }
+if (isset($_SESSION["data"]["time"])) {
+  if ((time() - $_SESSION["data"]["time"]) > 2) {
+    if (isset($_SESSION["data"])) {
+      unset($_SESSION["data"]);
+    }
+    unset($_SESSION["data"]["time"]);
+  }
+}
 
 $baseURL = "http://$_SERVER[HTTP_HOST]/apps/wikisuku/";
+
+$takeKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan");
+$takeKegiatan2 = mysqli_query($conn, "SELECT * FROM kegiatan");
+
+if (isset($_POST['search'])) {
+  $keyword = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['keyword']))));
+  $_SESSION['data'] = [
+    'url-search' => 'index',
+    'keyword' => $keyword,
+    'time' => time(),
+  ];
+  header("Location: artikel");
+  exit();
+}
+if (isset($_SESSION['data'])) {
+  $keyword = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_SESSION['data']['keyword']))));
+  $takeSub_kegiatan = mysqli_query($conn, "SELECT * FROM sub_kegiatan JOIN kegiatan ON sub_kegiatan.id_kegiatan=kegiatan.id_kegiatan JOIN artikel ON sub_kegiatan.id_sub_kegiatan=artikel.id_sub_kegiatan WHERE artikel.title LIKE '%$keyword%'");
+} else {
+  if (isset($_POST['search-artikel'])) {
+    $keyword = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['keyword']))));
+    $takeSub_kegiatan = mysqli_query($conn, "SELECT * FROM sub_kegiatan JOIN kegiatan ON sub_kegiatan.id_kegiatan=kegiatan.id_kegiatan JOIN artikel ON sub_kegiatan.id_sub_kegiatan=artikel.id_sub_kegiatan WHERE artikel.title LIKE '%$keyword%'");
+  } else {
+    $takeSub_kegiatan = mysqli_query($conn, "SELECT * FROM sub_kegiatan JOIN kegiatan ON sub_kegiatan.id_kegiatan=kegiatan.id_kegiatan JOIN artikel ON sub_kegiatan.id_sub_kegiatan=artikel.id_sub_kegiatan");
+  }
+}
 
 if (!isset($_SESSION["data-user"])) {
   if (isset($_POST["masuk"])) {
@@ -70,6 +102,84 @@ if (isset($_SESSION["data-user"])) {
   if (isset($_POST["hapus-user"])) {
     if (delete_user($_POST) > 0) {
       $_SESSION["message-success"] = "Pengguna " . $_POST["username"] . " berhasil dihapus.";
+      $_SESSION["time-message"] = time();
+      header("Location: " . $_SESSION["page-url"]);
+      exit();
+    }
+  }
+
+  $kegiatan = mysqli_query($conn, "SELECT * FROM kegiatan ORDER BY id_kegiatan DESC");
+  if (isset($_POST["tambah-kegiatan"])) {
+    if (add_kegiatan($_POST) > 0) {
+      $_SESSION["message-success"] = "Nama kegiatan berhasil ditambahkan.";
+      $_SESSION["time-message"] = time();
+      header("Location: " . $_SESSION["page-url"]);
+      exit();
+    }
+  }
+  if (isset($_POST["ubah-kegiatan"])) {
+    if (edit_kegiatan($_POST) > 0) {
+      $_SESSION["message-success"] = "Nama kegiatan berhasil diubah.";
+      $_SESSION["time-message"] = time();
+      header("Location: " . $_SESSION["page-url"]);
+      exit();
+    }
+  }
+  if (isset($_POST["hapus-kegiatan"])) {
+    if (delete_kegiatan($_POST) > 0) {
+      $_SESSION["message-success"] = "Nama kegiatan berhasil dihapus.";
+      $_SESSION["time-message"] = time();
+      header("Location: " . $_SESSION["page-url"]);
+      exit();
+    }
+  }
+
+  $sub_kegiatan = mysqli_query($conn, "SELECT sub_kegiatan.*, kegiatan.nama_kegiatan FROM sub_kegiatan JOIN kegiatan ON sub_kegiatan.id_kegiatan=kegiatan.id_kegiatan ORDER BY sub_kegiatan.id_sub_kegiatan DESC");
+  if (isset($_POST["tambah-sub-kegiatan"])) {
+    if (add_sub_kegiatan($_POST) > 0) {
+      $_SESSION["message-success"] = "Nama sub kegiatan berhasil ditambahkan.";
+      $_SESSION["time-message"] = time();
+      header("Location: " . $_SESSION["page-url"]);
+      exit();
+    }
+  }
+  if (isset($_POST["ubah-sub-kegiatan"])) {
+    if (edit_sub_kegiatan($_POST) > 0) {
+      $_SESSION["message-success"] = "Nama sub kegiatan berhasil diubah.";
+      $_SESSION["time-message"] = time();
+      header("Location: " . $_SESSION["page-url"]);
+      exit();
+    }
+  }
+  if (isset($_POST["hapus-sub-kegiatan"])) {
+    if (delete_sub_kegiatan($_POST) > 0) {
+      $_SESSION["message-success"] = "Nama sub kegiatan berhasil dihapus.";
+      $_SESSION["time-message"] = time();
+      header("Location: " . $_SESSION["page-url"]);
+      exit();
+    }
+  }
+
+  $artikel = mysqli_query($conn, "SELECT artikel.*, sub_kegiatan.sub_kegiatan, kegiatan.nama_kegiatan FROM artikel JOIN sub_kegiatan ON artikel.id_sub_kegiatan=sub_kegiatan.id_sub_kegiatan JOIN kegiatan ON sub_kegiatan.id_kegiatan=kegiatan.id_kegiatan ORDER BY artikel.id_artikel DESC");
+  if (isset($_POST["tambah-artikel"])) {
+    if (add_artikel($_POST) > 0) {
+      $_SESSION["message-success"] = "Artikel berhasil ditambahkan.";
+      $_SESSION["time-message"] = time();
+      header("Location: " . $_SESSION["page-url"]);
+      exit();
+    }
+  }
+  if (isset($_POST["ubah-artikel"])) {
+    if (edit_artikel($_POST) > 0) {
+      $_SESSION["message-success"] = "Artikel berhasil diubah.";
+      $_SESSION["time-message"] = time();
+      header("Location: " . $_SESSION["page-url"]);
+      exit();
+    }
+  }
+  if (isset($_POST["hapus-artikel"])) {
+    if (delete_artikel($_POST) > 0) {
+      $_SESSION["message-success"] = "Artikel berhasil dihapus.";
       $_SESSION["time-message"] = time();
       header("Location: " . $_SESSION["page-url"]);
       exit();

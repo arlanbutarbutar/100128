@@ -6,7 +6,11 @@
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <!-- Site Meta -->
-<title>SEOTime HTML5 Business Template</title>
+<title><?php if (isset($_SESSION['page-name'])) {
+          if ($_SESSION['page-name'] != "") {
+            echo $_SESSION['page-name'] . ' - ';
+          }
+        } ?>Wikisuku</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="">
@@ -24,8 +28,4 @@
 <link rel="stylesheet" href="<?= $baseURL ?>assets/css/animate.css">
 <link rel="stylesheet" href="<?= $baseURL ?>assets/css/carousel.css">
 <link rel="stylesheet" href="<?= $baseURL ?>assets/css/style.css">
-
-<!--[if lt IE 9]>
-		<script src="js/vendor/html5shiv.min.js"></script>
-		<script src="js/vendor/respond.min.js"></script>
-	<![endif]-->
+<script src="<?= $baseURL ?>assets/sweetalert/dist/sweetalert2.all.min.js"></script>
