@@ -37,6 +37,7 @@ $baseURL = "http://$_SERVER[HTTP_HOST]/apps/wikisuku/";
 
 $takeKegiatan = mysqli_query($conn, "SELECT * FROM kegiatan");
 $takeKegiatan2 = mysqli_query($conn, "SELECT * FROM kegiatan");
+$viewGaleri = mysqli_query($conn, "SELECT * FROM galeri");
 
 if (isset($_POST['search'])) {
   $keyword = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['keyword']))));
@@ -77,7 +78,7 @@ if (isset($_SESSION["data-user"])) {
     if (edit_profile($_POST) > 0) {
       $_SESSION["message-success"] = "Profil akun anda berhasil di ubah.";
       $_SESSION["time-message"] = time();
-      header("Location: " . $_SESSION["page-url"]);
+      header("Location: profil");
       exit();
     }
   }
@@ -87,7 +88,7 @@ if (isset($_SESSION["data-user"])) {
     if (add_user($_POST) > 0) {
       $_SESSION["message-success"] = "Pengguna " . $_POST["username"] . " berhasil ditambahkan.";
       $_SESSION["time-message"] = time();
-      header("Location: " . $_SESSION["page-url"]);
+      header("Location: users");
       exit();
     }
   }
@@ -95,7 +96,7 @@ if (isset($_SESSION["data-user"])) {
     if (edit_user($_POST) > 0) {
       $_SESSION["message-success"] = "Pengguna " . $_POST["usernameOld"] . " berhasil diubah.";
       $_SESSION["time-message"] = time();
-      header("Location: " . $_SESSION["page-url"]);
+      header("Location: users");
       exit();
     }
   }
@@ -103,7 +104,7 @@ if (isset($_SESSION["data-user"])) {
     if (delete_user($_POST) > 0) {
       $_SESSION["message-success"] = "Pengguna " . $_POST["username"] . " berhasil dihapus.";
       $_SESSION["time-message"] = time();
-      header("Location: " . $_SESSION["page-url"]);
+      header("Location: users");
       exit();
     }
   }
@@ -113,7 +114,7 @@ if (isset($_SESSION["data-user"])) {
     if (add_kegiatan($_POST) > 0) {
       $_SESSION["message-success"] = "Nama kegiatan berhasil ditambahkan.";
       $_SESSION["time-message"] = time();
-      header("Location: " . $_SESSION["page-url"]);
+      header("Location: kegiatan");
       exit();
     }
   }
@@ -121,7 +122,7 @@ if (isset($_SESSION["data-user"])) {
     if (edit_kegiatan($_POST) > 0) {
       $_SESSION["message-success"] = "Nama kegiatan berhasil diubah.";
       $_SESSION["time-message"] = time();
-      header("Location: " . $_SESSION["page-url"]);
+      header("Location: kegiatan");
       exit();
     }
   }
@@ -129,7 +130,7 @@ if (isset($_SESSION["data-user"])) {
     if (delete_kegiatan($_POST) > 0) {
       $_SESSION["message-success"] = "Nama kegiatan berhasil dihapus.";
       $_SESSION["time-message"] = time();
-      header("Location: " . $_SESSION["page-url"]);
+      header("Location: kegiatan");
       exit();
     }
   }
@@ -139,7 +140,7 @@ if (isset($_SESSION["data-user"])) {
     if (add_sub_kegiatan($_POST) > 0) {
       $_SESSION["message-success"] = "Nama sub kegiatan berhasil ditambahkan.";
       $_SESSION["time-message"] = time();
-      header("Location: " . $_SESSION["page-url"]);
+      header("Location: sub-kegiatan");
       exit();
     }
   }
@@ -147,7 +148,7 @@ if (isset($_SESSION["data-user"])) {
     if (edit_sub_kegiatan($_POST) > 0) {
       $_SESSION["message-success"] = "Nama sub kegiatan berhasil diubah.";
       $_SESSION["time-message"] = time();
-      header("Location: " . $_SESSION["page-url"]);
+      header("Location: sub-kegiatan");
       exit();
     }
   }
@@ -155,7 +156,7 @@ if (isset($_SESSION["data-user"])) {
     if (delete_sub_kegiatan($_POST) > 0) {
       $_SESSION["message-success"] = "Nama sub kegiatan berhasil dihapus.";
       $_SESSION["time-message"] = time();
-      header("Location: " . $_SESSION["page-url"]);
+      header("Location: sub-kegiatan");
       exit();
     }
   }
@@ -165,7 +166,7 @@ if (isset($_SESSION["data-user"])) {
     if (add_artikel($_POST) > 0) {
       $_SESSION["message-success"] = "Artikel berhasil ditambahkan.";
       $_SESSION["time-message"] = time();
-      header("Location: " . $_SESSION["page-url"]);
+      header("Location: artikel");
       exit();
     }
   }
@@ -173,7 +174,7 @@ if (isset($_SESSION["data-user"])) {
     if (edit_artikel($_POST) > 0) {
       $_SESSION["message-success"] = "Artikel berhasil diubah.";
       $_SESSION["time-message"] = time();
-      header("Location: " . $_SESSION["page-url"]);
+      header("Location: artikel");
       exit();
     }
   }
@@ -181,7 +182,25 @@ if (isset($_SESSION["data-user"])) {
     if (delete_artikel($_POST) > 0) {
       $_SESSION["message-success"] = "Artikel berhasil dihapus.";
       $_SESSION["time-message"] = time();
-      header("Location: " . $_SESSION["page-url"]);
+      header("Location: artikel");
+      exit();
+    }
+  }
+
+  $galeri = mysqli_query($conn, "SELECT * FROM galeri");
+  if (isset($_POST["tambah-galeri"])) {
+    if (add_galeri($_POST) > 0) {
+      $_SESSION["message-success"] = "Gambar berhasil ditambahkan.";
+      $_SESSION["time-message"] = time();
+      header("Location: galeri");
+      exit();
+    }
+  }
+  if (isset($_POST["hapus-galeri"])) {
+    if (delete_galeri($_POST) > 0) {
+      $_SESSION["message-success"] = "Gambar berhasil dihapus.";
+      $_SESSION["time-message"] = time();
+      header("Location: galeri");
       exit();
     }
   }

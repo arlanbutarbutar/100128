@@ -32,6 +32,12 @@
         <span class="menu-title">Artikel</span>
       </a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" style="cursor: pointer;" onclick="window.location.href='galeri'">
+        <i class="mdi mdi-newspaper menu-icon"></i>
+        <span class="menu-title">Galeri</span>
+      </a>
+    </li>
     <li class="nav-item nav-category"></li>
     <li class="nav-item">
       <a class="nav-link" style="cursor: pointer;" onclick="window.location.href='icons'">

@@ -15,7 +15,7 @@ $_SESSION["page-url"] = "./";
   <div id="wrapper">
     <?php require_once("resources/navbar.php") ?>
 
-    <section class="section transheader homepage parallax" data-stellar-background-ratio="0.5" style="background-image:url('assets/images/bg_04.jpg');">
+    <section class="section transheader homepage parallax" data-stellar-background-ratio="0.5" style="background-image:url('assets/images/beranda.jpg');object-fit: cover;">
       <div class="container">
         <div class="row">
           <div class="col-md-10 col-md-offset-1 col-sm-12 text-center">

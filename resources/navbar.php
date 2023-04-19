@@ -49,6 +49,7 @@
               </ul>
             </li>
             <li><a href="artikel">Artikel</a></li>
+            <li><a href="galeri">Galeri</a></li>
             <li class="lastlink hidden-xs hidden-sm"><a class="btn btn-primary" href="auth/">Masuk</a></li>
           </ul>
         </div><!--/.nav-collapse -->

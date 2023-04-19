@@ -29,21 +29,21 @@ if (!isset($_GET['tentang'])) {
     <?php require_once("resources/navbar.php") ?>
 
     <?php if (mysqli_num_rows($takeSub) == 0) { ?>
-      <section class="section transheader parallax" data-stellar-background-ratio="0.5" style="background-image:url('assets/images/bg_01.jpg');">
+      <section class="section transheader parallax" data-stellar-background-ratio="0.5" style="background-image:url('assets/images/tenuns.jpeg');">
         <div class="container">
           <div class="row">
             <div class="col-md-10 col-md-offset-1 col-sm-12 text-center">
-              <h2>Kegiatan</h2>
+              <h2 class="text-dark" style="color: #fff;">Kegiatan</h2>
             </div><!-- end col -->
           </div><!-- end row -->
         </div><!-- end container -->
       </section><!-- end section -->
     <?php } elseif (mysqli_num_rows($takeSub) > 0) { ?>
-      <section class="section transheader parallax" data-stellar-background-ratio="0.5" style="background-image:url('assets/images/bg_01.jpg');">
+      <section class="section transheader parallax" data-stellar-background-ratio="0.5" style="background-image:url('assets/images/tenuns.jpeg');">
         <div class="container">
           <div class="row">
             <div class="col-md-10 col-md-offset-1 col-sm-12 text-center">
-              <h2>Kegiatan <?= $nama ?></h2>
+              <h2 class="text-dark" style="color: #fff;">Kegiatan <?= $nama ?></h2>
             </div><!-- end col -->
           </div><!-- end row -->
         </div><!-- end container -->

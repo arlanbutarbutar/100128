@@ -278,4 +278,56 @@ if (isset($_SESSION["data-user"])) {
     mysqli_query($conn, "DELETE FROM artikel WHERE id_artikel='$id_artikel'");
     return mysqli_affected_rows($conn);
   }
+  function add_galeri($data)
+  {
+    global $conn, $baseURL;
+    if (isset($_FILES['images'])) {
+      $files = $_FILES['images'];
+      $upload_directory = "../assets/images/galeri/";
+
+      for ($i = 0; $i < count($files['name']); $i++) {
+        $file_name = $files['name'][$i];
+        $file_tmp = $files['tmp_name'][$i];
+        $file_size = $files['size'][$i];
+
+        if ($file_size > 2097152) {
+          $_SESSION['message-danger'] = "File size must be exactly 2 MB";
+          $_SESSION['time-message'] = time();
+          return false;
+        }
+
+        $fileName = str_replace(" ", "-", $file_name);
+        $fileName_encrypt = crc32($fileName);
+        $ekstensiGambar = explode('.', $fileName);
+        $ekstensiGambar = strtolower(end($ekstensiGambar));
+        $imageUploadPath = $upload_directory . $fileName_encrypt . "." . $ekstensiGambar;
+        $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION);
+        $allowTypes = array('jpg', 'png', 'jpeg');
+        if (in_array($fileType, $allowTypes)) {
+          compressImage($file_tmp, $imageUploadPath, 75);
+          $url_image = $baseURL . "/assets/images/galeri/" . $fileName_encrypt . "." . $ekstensiGambar;
+          mysqli_query($conn, "INSERT INTO galeri(image) VALUES('$url_image')");
+        } else {
+          $_SESSION['message-danger'] = "Sorry, only JPG, JPEG and PNG image files are allowed.";
+          $_SESSION['time-message'] = time();
+          return false;
+        }
+      }
+    }
+    return mysqli_affected_rows($conn);
+  }
+  function delete_galeri($data)
+  {
+    global $conn, $baseURL;
+    $id_galeri = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id_galeri']))));
+    $url_image = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['url_image']))));
+
+    $path = "../assets/images/galeri/";
+    $unwanted_characters = $baseURL . "/assets/images/galeri/";
+    $remove_avatar = str_replace($unwanted_characters, "", $url_image);
+    unlink($path . $remove_avatar);
+
+    mysqli_query($conn, "DELETE FROM galeri WHERE id_galeri='$id_galeri'");
+    return mysqli_affected_rows($conn);
+  }
 }
