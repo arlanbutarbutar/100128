@@ -1,16 +1,3 @@
-<div class="translate" id="google_translate_element"></div>
-<div class="gtranslate_wrapper"></div>
-<script>
-  window.gtranslateSettings = {
-    "default_language": "id",
-    "native_language_names": true,
-    "detect_browser_language": true,
-    "languages": ["id", "fr", "de", "it", "es", "en"],
-    "wrapper_selector": ".gtranslate_wrapper"
-  }
-</script>
-<script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
-
 <header class="header site-header">
   <div class="container">
     <nav class="navbar navbar-default yamm">
@@ -22,7 +9,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="./" style="font-size: 40px;font-weight: bold;">Wikisuku</a>
+          <a class="navbar-brand" href="./" style="font-size: 40px;font-weight: bold;">Suku Dawan</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">

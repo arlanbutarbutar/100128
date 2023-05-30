@@ -19,23 +19,11 @@ $_SESSION["page-url"] = "./";
       <div class="container">
         <div class="row">
           <div class="col-md-10 col-md-offset-1 col-sm-12 text-center">
-            <h2>Selamat Datang di <strong>Wikisuku</strong></h2>
-            <p class="lead">Sebuah dokumen digital tentang tradisi mama sirih pinang di Suku Dawan</p>
-            <form class="calculateform" method="post">
-              <div class="item-box">
-                <div class="item-top form-inline">
-                  <div class="form-group">
-                    <div class="input-group2">
-                      <span class="input-addon">
-                        <i class="fa fa-search"></i>
-                      </span>
-                      <input type="text" class="form-control" name="keyword" placeholder="Apa yang ingin kamu cari?">
-                    </div>
-                  </div>
-                  <input type="submit" name="search" value="Cari" class="btn btn-default" />
-                </div>
-              </div>
-            </form>
+            <div style="width: 100%;height: 300px;padding: 20px;background: linear-gradient(to bottom, rgba(21, 105, 167, 0.8), rgba(14, 59, 93, 0.8));border-radius: 20px;">
+              <h2>Tradisi Sirih pinang suku dawan</h2>
+              <h3 style="font-size: 35px;color: #fff;">Selamat datanng di website tradisi sirih pinang suku Dawan di Pulau Timor</h3>
+              <p class="lead">Terimakasih telah berkunjung ke situ website kami. kami mengundang anda untuk melihat-lihat website kami untuk kemudian mendapat gambaran seputar tradisi sirih pinang atau biasa di sebut Puah Manus.</p>
+            </div>
           </div><!-- end col -->
         </div><!-- end row -->
       </div><!-- end container -->

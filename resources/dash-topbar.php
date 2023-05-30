@@ -10,7 +10,7 @@
           }
         </style>
         <div class="brand">
-          <h2 class="text-white">Wikisuku</h2>
+          <h2 class="text-white">Suku Dawan</h2>
         </div>
       </a>
       <a class="nav-link navbar-brand brand-logo-mini" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">

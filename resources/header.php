@@ -6,11 +6,7 @@
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <!-- Site Meta -->
-<title><?php if (isset($_SESSION['page-name'])) {
-          if ($_SESSION['page-name'] != "") {
-            echo $_SESSION['page-name'] . ' - ';
-          }
-        } ?>Wikisuku</title>
+<title>Tradisi Sirih Pinang Suku Dawan</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="">
