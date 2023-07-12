@@ -4,7 +4,7 @@ if (!isset($_GET['nya'])) {
   $_SESSION["page-url"] = "artikel";
 } else {
   $title = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_GET['nya']))));
-  $title = str_replace('-', ' ', $title);
+  $title = str_replace('_', ' ', $title);
   $takeArtikel = mysqli_query($conn, "SELECT * FROM artikel JOIN sub_kegiatan ON artikel.id_sub_kegiatan=sub_kegiatan.id_sub_kegiatan WHERE artikel.title='$title'");
   $_SESSION["page-name"] = "Artikel $title";
   $_SESSION["page-url"] = "artikel?nya=$title";
@@ -76,7 +76,7 @@ if (!isset($_GET['nya'])) {
                 <ul>
                   <?php if (mysqli_num_rows($takeKegiatan2) > 0) {
                     while ($row = mysqli_fetch_assoc($takeKegiatan2)) {
-                      $nama_kegiatan = str_replace(' ', '-', $row['nama_kegiatan']); ?>
+                      $nama_kegiatan = str_replace(' ', '_', $row['nama_kegiatan']); ?>
                       <li><a href="kegiatan?tentang=<?= $nama_kegiatan ?>"><?= $row['nama_kegiatan'] ?></a></li>
                   <?php }
                   } ?>
@@ -95,7 +95,7 @@ if (!isset($_GET['nya'])) {
                 while ($rowSub = mysqli_fetch_assoc($takeSub_kegiatan)) { ?>
                   <div class="blog-box clearfix row">
                     <div class="media-box col-md-4">
-                      <a href="artikel?nya=<?= str_replace(' ', '-', $rowSub['title']); ?>" title=""><img src="<?= $rowSub['image'] ?>" alt="" class="img-responsive img-thumbnail"></a>
+                      <a href="artikel?nya=<?= str_replace(' ', '_', $rowSub['title']); ?>" title=""><img src="<?= $rowSub['image'] ?>" alt="" class="img-responsive img-thumbnail"></a>
                     </div><!-- end media-box -->
                     <div class="blog-desc col-md-8">
                       <div class="blog-meta">
@@ -103,13 +103,13 @@ if (!isset($_GET['nya'])) {
                           <li><i class="fa fa-folder-open-o"></i> <?= $rowSub['sub_kegiatan'] ?></li>
                         </ul>
                       </div><!-- end meta -->
-                      <h3><a href="artikel?nya=<?= str_replace(' ', '-', $rowSub['title']); ?>" title=""><?= $rowSub['title'] ?></a></h3>
+                      <h3><a href="artikel?nya=<?= str_replace(' ', '_', $rowSub['title']); ?>" title=""><?= $rowSub['title'] ?></a></h3>
                       <?php $string = strip_tags($rowSub['content']); // Menghilangkan tag HTML dari string
                       if (strlen($string) > 250) {
                         echo substr($string, 0, 250) . "...";
                       }
                       ?>
-                      <a class="" href="artikel?nya=<?= str_replace(' ', '-', $rowSub['title']); ?>">Baca lebih</a>
+                      <a class="" href="artikel?nya=<?= str_replace(' ', '_', $rowSub['title']); ?>">Baca lebih</a>
                     </div><!-- end blog-desc -->
                   </div><!-- end blogbox -->
               <?php }

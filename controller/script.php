@@ -112,7 +112,7 @@ if (isset($_SESSION["data-user"])) {
   $kegiatan = mysqli_query($conn, "SELECT * FROM kegiatan ORDER BY id_kegiatan DESC");
   if (isset($_POST["tambah-kegiatan"])) {
     if (add_kegiatan($_POST) > 0) {
-      $_SESSION["message-success"] = "Nama kegiatan berhasil ditambahkan.";
+      $_SESSION["message-success"] = "List kegiatan berhasil ditambahkan.";
       $_SESSION["time-message"] = time();
       header("Location: kegiatan");
       exit();
@@ -120,7 +120,7 @@ if (isset($_SESSION["data-user"])) {
   }
   if (isset($_POST["ubah-kegiatan"])) {
     if (edit_kegiatan($_POST) > 0) {
-      $_SESSION["message-success"] = "Nama kegiatan berhasil diubah.";
+      $_SESSION["message-success"] = "List kegiatan berhasil diubah.";
       $_SESSION["time-message"] = time();
       header("Location: kegiatan");
       exit();
@@ -128,6 +128,32 @@ if (isset($_SESSION["data-user"])) {
   }
   if (isset($_POST["hapus-kegiatan"])) {
     if (delete_kegiatan($_POST) > 0) {
+      $_SESSION["message-success"] = "List kegiatan berhasil dihapus.";
+      $_SESSION["time-message"] = time();
+      header("Location: kegiatan");
+      exit();
+    }
+  }
+
+  $data_kegiatan = mysqli_query($conn, "SELECT data_kegiatan.*, kegiatan.nama_kegiatan FROM data_kegiatan JOIN kegiatan ON data_kegiatan.id_kegiatan=kegiatan.id_kegiatan");
+  if (isset($_POST["tambah-data-kegiatan"])) {
+    if (add_data_kegiatan($_POST) > 0) {
+      $_SESSION["message-success"] = "Nama kegiatan berhasil ditambahkan.";
+      $_SESSION["time-message"] = time();
+      header("Location: kegiatan");
+      exit();
+    }
+  }
+  if (isset($_POST["ubah-data-kegiatan"])) {
+    if (edit_data_kegiatan($_POST) > 0) {
+      $_SESSION["message-success"] = "Nama kegiatan berhasil diubah.";
+      $_SESSION["time-message"] = time();
+      header("Location: kegiatan");
+      exit();
+    }
+  }
+  if (isset($_POST["hapus-data-kegiatan"])) {
+    if (delete_data_kegiatan($_POST) > 0) {
       $_SESSION["message-success"] = "Nama kegiatan berhasil dihapus.";
       $_SESSION["time-message"] = time();
       header("Location: kegiatan");

@@ -14,6 +14,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="./">Beranda</a></li>
+            <li><a href="artikel">Artikel</a></li>
             <li class="dropdown yamm-fw hasmenu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kegiatan <span class="fa fa-angle-down"></span></a>
               <ul class="dropdown-menu">
@@ -24,7 +25,7 @@
                         <ul>
                           <?php if (mysqli_num_rows($takeKegiatan) > 0) {
                             while ($row = mysqli_fetch_assoc($takeKegiatan)) {
-                              $nama_kegiatan = str_replace(' ', '-', $row['nama_kegiatan']); ?>
+                              $nama_kegiatan = str_replace(' ', '_', $row['nama_kegiatan']); ?>
                               <li><a href="kegiatan?tentang=<?= $nama_kegiatan ?>" class="text-dark"><?= $row['nama_kegiatan'] ?></a></li>
                           <?php }
                           } ?>
@@ -35,7 +36,6 @@
                 </li>
               </ul>
             </li>
-            <li><a href="artikel">Artikel</a></li>
             <li><a href="galeri">Galeri</a></li>
             <li class="lastlink hidden-xs hidden-sm"><a class="btn btn-primary" href="auth/">Masuk</a></li>
           </ul>

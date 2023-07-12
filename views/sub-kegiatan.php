@@ -81,8 +81,8 @@ $_SESSION["page-url"] = "sub-kegiatan";
                                               <select name="id-kegiatan" id="id-kegiatan" class="form-select" aria-label="Default select example">
                                                 <option selected value="<?= $row['id_kegiatan'] ?>"><?= $row["nama_kegiatan"] ?></option>
                                                 <?php $id_kegiatan = $row['id_kegiatan'];
-                                                $kegiatan = mysqli_query($conn, "SELECT * FROM kegiatan WHERE id_kegiatan!='$id_kegiatan'");
-                                                foreach ($kegiatan as $row_k) : ?>
+                                                $kegiatanEdit = mysqli_query($conn, "SELECT * FROM kegiatan WHERE id_kegiatan!='$id_kegiatan'");
+                                                foreach ($kegiatanEdit as $row_k) : ?>
                                                   <option value="<?= $row_k['id_kegiatan'] ?>"><?= $row_k['nama_kegiatan'] ?></option>
                                                 <?php endforeach; ?>
                                               </select>

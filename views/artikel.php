@@ -148,7 +148,10 @@ $_SESSION["page-url"] = "artikel";
                                             </div>
                                             <div class="mb-3">
                                               <label for="content" class="form-label">Konten</label>
-                                              <textarea name="content" class="form-control" id="content" rows="3" required><?= $row['content'] ?></textarea>
+                                              <textarea name="content" class="form-control" id="content-edit<?= $row["id_artikel"] ?>" rows="3" required><?= $row['content'] ?></textarea>
+                                              <script>
+                                                CKEDITOR.replace('content-edit<?= $row["id_artikel"] ?>');
+                                              </script>
                                             </div>
                                             <div class="mb-3">
                                               <label for="publish" class="form-label">Tanggal Penerbitan</label>
@@ -238,7 +241,7 @@ $_SESSION["page-url"] = "artikel";
                   </div>
                   <div class="mb-3">
                     <label for="content" class="form-label">Konten</label>
-                    <textarea name="content" class="form-control" id="content" rows="3" required></textarea>
+                    <textarea name="content" class="form-control" id="content-add" rows="3" required></textarea>
                   </div>
                   <div class="mb-3">
                     <label for="publish" class="form-label">Tanggal Penerbitan</label>
@@ -255,7 +258,7 @@ $_SESSION["page-url"] = "artikel";
         </div>
         <?php require_once("../resources/dash-footer.php") ?>
         <script>
-          CKEDITOR.replace('content');
+          CKEDITOR.replace('content-add');
         </script>
 </body>
 

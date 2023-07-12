@@ -4,13 +4,9 @@ if (!isset($_GET['tentang'])) {
   exit();
 } else {
   $nama = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_GET['tentang']))));
-  $nama = str_replace('-', ' ', $nama);
-  if (isset($_POST['search-kegiatan'])) {
-    $keyword = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['keyword']))));
-    $takeSub = mysqli_query($conn, "SELECT * FROM sub_kegiatan JOIN kegiatan ON sub_kegiatan.id_kegiatan=kegiatan.id_kegiatan JOIN artikel ON sub_kegiatan.id_sub_kegiatan=artikel.id_sub_kegiatan WHERE kegiatan.nama_kegiatan='$nama' AND artikel.title LIKE '%$keyword%'");
-  } else {
-    $takeSub = mysqli_query($conn, "SELECT * FROM sub_kegiatan JOIN kegiatan ON sub_kegiatan.id_kegiatan=kegiatan.id_kegiatan JOIN artikel ON sub_kegiatan.id_sub_kegiatan=artikel.id_sub_kegiatan WHERE kegiatan.nama_kegiatan='$nama'");
-  }
+  $nama = str_replace('_', ' ', $nama);
+  $takeSub = mysqli_query($conn, "SELECT * FROM kegiatan JOIN data_kegiatan ON kegiatan.id_kegiatan=data_kegiatan.id_kegiatan WHERE kegiatan.nama_kegiatan='$nama'");
+  $dataArtikel = mysqli_query($conn, "SELECT artikel.* FROM artikel JOIN sub_kegiatan ON artikel.id_sub_kegiatan=sub_kegiatan.id_sub_kegiatan JOIN kegiatan ON sub_kegiatan.id_kegiatan=kegiatan.id_kegiatan WHERE kegiatan.nama_kegiatan='$nama'");
   $_SESSION["page-name"] = "Kegiatan $nama";
   $_SESSION["page-url"] = "kegiatan?tentang=$nama";
 }
@@ -21,6 +17,222 @@ if (!isset($_GET['tentang'])) {
 
 <head>
   <?php require_once("resources/header.php") ?>
+  <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      list-style-type: none;
+      text-decoration: none;
+    }
+
+    :root {
+      --primary: #31adc0;
+      --white: #ffffff;
+      --bg: #f5f5f5;
+    }
+
+    .normalhead {
+      position: relative;
+    }
+
+    .normalhead::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      /* Ubah angka transparansi (0.5) sesuai kebutuhan */
+      z-index: 0;
+    }
+
+    .normalhead h2 {
+      color: #fff;
+      /* Warna teks yang diinginkan */
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 124rem;
+      padding: 0 1rem;
+      margin: 0 auto;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .section-heading {
+      font-size: 3rem;
+      color: var(--primary);
+      padding: 2rem 0;
+    }
+
+    #tranding {
+      padding: 4rem 0;
+    }
+
+    @media (max-width:1440px) {
+      #tranding {
+        padding: 7rem 0;
+      }
+    }
+
+    #tranding .tranding-slider {
+      height: 52rem;
+      padding: 2rem 0;
+      position: relative;
+    }
+
+    @media (max-width:500px) {
+      #tranding .tranding-slider {
+        height: 45rem;
+      }
+    }
+
+    .tranding-slide {
+      width: 37rem;
+      height: 42rem;
+      position: relative;
+    }
+
+    @media (max-width:500px) {
+      .tranding-slide {
+        width: 28rem !important;
+        height: 36rem !important;
+      }
+
+      .tranding-slide .tranding-slide-img img {
+        width: 28rem !important;
+        height: 36rem !important;
+      }
+    }
+
+    .tranding-slide .tranding-slide-img img {
+      width: 37rem;
+      height: 42rem;
+      border-radius: 2rem;
+      object-fit: cover;
+    }
+
+    .tranding-slide .tranding-slide-content {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    .tranding-slide-content .food-price {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      color: var(--white);
+    }
+
+    .tranding-slide-content .tranding-slide-content-bottom {
+      position: absolute;
+      bottom: 2rem;
+      left: 2rem;
+      color: var(--white);
+    }
+
+    .food-rating {
+      padding-top: 1rem;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .rating ion-icon {
+      color: var(--primary);
+    }
+
+    .swiper-slide-shadow-left,
+    .swiper-slide-shadow-right {
+      display: none;
+    }
+
+    .tranding-slider-control {
+      position: relative;
+      bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tranding-slider-control .swiper-button-next {
+      left: 58% !important;
+      transform: translateX(-58%) !important;
+    }
+
+    @media (max-width:990px) {
+      .tranding-slider-control .swiper-button-next {
+        left: 70% !important;
+        transform: translateX(-70%) !important;
+      }
+    }
+
+    @media (max-width:450px) {
+      .tranding-slider-control .swiper-button-next {
+        left: 80% !important;
+        transform: translateX(-80%) !important;
+      }
+    }
+
+    @media (max-width:990px) {
+      .tranding-slider-control .swiper-button-prev {
+        left: 30% !important;
+        transform: translateX(-30%) !important;
+      }
+    }
+
+    @media (max-width:450px) {
+      .tranding-slider-control .swiper-button-prev {
+        left: 20% !important;
+        transform: translateX(-20%) !important;
+      }
+    }
+
+    .tranding-slider-control .slider-arrow {
+      background: var(--white);
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 50%;
+      left: 42%;
+      transform: translateX(-42%);
+      filter: drop-shadow(0px 8px 24px rgba(18, 28, 53, 0.1));
+    }
+
+    .tranding-slider-control .slider-arrow ion-icon {
+      font-size: 2rem;
+      color: #222224;
+    }
+
+    .tranding-slider-control .slider-arrow::after {
+      content: '';
+    }
+
+    .tranding-slider-control .swiper-pagination {
+      position: relative;
+      width: 15rem;
+      bottom: 1rem;
+    }
+
+    .tranding-slider-control .swiper-pagination .swiper-pagination-bullet {
+      filter: drop-shadow(0px 8px 24px rgba(18, 28, 53, 0.1));
+    }
+
+    .tranding-slider-control .swiper-pagination .swiper-pagination-bullet-active {
+      background: var(--primary);
+    }
+  </style>
 </head>
 
 <body>
@@ -29,102 +241,134 @@ if (!isset($_GET['tentang'])) {
     <?php require_once("resources/navbar.php") ?>
 
     <?php if (mysqli_num_rows($takeSub) == 0) { ?>
-      <section class="section transheader parallax" data-stellar-background-ratio="0.5" style="background-image:url('assets/images/tenuns.jpeg');">
+      <section class="section normalhead lb" style="background-color: #31adc0;">
         <div class="container">
           <div class="row">
             <div class="col-md-10 col-md-offset-1 col-sm-12 text-center">
-              <h2 class="text-dark" style="color: #fff;">Kegiatan</h2>
-            </div><!-- end col -->
-          </div><!-- end row -->
-        </div><!-- end container -->
-      </section><!-- end section -->
-    <?php } elseif (mysqli_num_rows($takeSub) > 0) { ?>
-      <section class="section transheader parallax" data-stellar-background-ratio="0.5" style="background-image:url('assets/images/tenuns.jpeg');">
+              <h2>Kegiatan</h2>
+            </div>
+          </div>
+        </div>
+      </section>
+    <?php } else if (mysqli_num_rows($takeSub) > 0) {
+      $row = mysqli_fetch_assoc($takeSub); ?>
+      <section class="section normalhead lb" style="background-color: #31adc0;">
         <div class="container">
           <div class="row">
             <div class="col-md-10 col-md-offset-1 col-sm-12 text-center">
-              <h2 class="text-dark" style="color: #fff;">Kegiatan <?= $nama ?></h2>
-            </div><!-- end col -->
-          </div><!-- end row -->
-        </div><!-- end container -->
-      </section><!-- end section -->
+              <h2>Kegiatan <?= $nama ?></h2>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section class="section">
         <div class="container">
           <div class="row">
-            <div class="content col-md-8">
-              <?php while ($row = mysqli_fetch_assoc($takeSub)) { ?>
-                <div class="blog-box clearfix row">
-                  <div class="media-box col-md-4">
-                    <a href="artikel?nya=<?= str_replace(' ', '-', $row['title']); ?>" title=""><img src="<?= $row['image'] ?>" alt="" class="img-responsive img-thumbnail"></a>
-                  </div><!-- end media-box -->
-                  <div class="blog-desc col-md-8">
-                    <div class="blog-meta">
-                      <ul class="list-inline">
-                        <li><i class="fa fa-folder-open-o"></i> <?= $row['sub_kegiatan'] ?></li>
-                      </ul>
-                    </div><!-- end meta -->
-                    <h3><a href="artikel?nya=<?= str_replace(' ', '-', $row['title']); ?>" title=""><?= $row['title'] ?></a></h3>
-                    <?php $string = strip_tags($row['content']); // Menghilangkan tag HTML dari string
-                    if (strlen($string) > 250) {
-                      echo substr($string, 0, 250) . "...";
-                    }
-                    ?>
-                    <a class="" href="artikel?nya=<?= str_replace(' ', '-', $row['title']); ?>">Baca lebih</a>
-                  </div><!-- end blog-desc -->
-                </div><!-- end blogbox -->
-              <?php } ?>
-            </div><!-- end content -->
+            <?php if ($row['col_image'] == "kiri") { ?>
+              <div class="col-lg-6">
+                <div class="clearfix">
+                  <img src="<?= $row['slug_image'] ?>" style="width: 100%;" alt="<?= $row['judul'] ?>">
+                </div>
+              </div>
+            <?php } ?>
+            <div class="col-lg-6">
+              <div class="clearfix row">
+                <div class="blog-desc col-md-10">
+                  <h3><?= $row['judul'] ?></h3>
+                  <?= strip_tags($row['deskripsi']); ?>
+                </div>
+              </div>
+            </div>
+            <?php if ($row['col_image'] == "kanan") { ?>
+              <div class="col-lg-6">
+                <div class="clearfix">
+                  <img src="<?= $row['slug_image'] ?>" style="width: 100%;" alt="<?= $row['judul'] ?>">
+                </div>
+              </div>
+            <?php } ?>
+          </div>
+        </div>
+      </section>
 
-            <div class="sidebar col-md-4 col-sm-4">
-              <div class="widget clearfix">
-                <h4 class="widget-title">Pencarian</h4>
-                <div class="newsletter-widget">
-                  <form method="post" class="form-inline" role="search">
-                    <div class="form-1">
-                      <input type="text" name="keyword" class="form-control" placeholder="Cari disini..." />
-                      <button type="submit" name="search-kegiatan" class="btn btn-primary">
-                        <i class="fa fa-search"></i>
-                      </button>
+      <section id="tranding">
+        <div class="container">
+          <h1 class="text-center section-heading">Artikel <?= $nama ?></h1>
+        </div>
+        <div class="container">
+          <div class="swiper tranding-slider">
+            <div class="swiper-wrapper">
+              <!-- Slide-start -->
+              <?php if (mysqli_num_rows($dataArtikel) > 0) {
+                while ($row = mysqli_fetch_assoc($dataArtikel)) {
+                  $url = str_replace(' ', '_', $row['title']); ?>
+                  <div class="swiper-slide tranding-slide">
+                    <div class="tranding-slide-img">
+                      <img src="<?= $row['image'] ?>" alt="Tranding">
                     </div>
-                  </form>
-                </div>
-                <!-- end newsletter -->
-              </div>
+                    <div class="tranding-slide-content">
+                      <div class="tranding-slide-content-bottom">
+                        <h2 class="food-name">
+                          <a href="artikel?nya=<?= $url; ?>" style="color: #fff;padding: 0 15px;background-color: #222224;"><?= $row['title'] ?></a>
+                        </h2>
+                        <p class="food-rating" style="padding: 0 10px;background:#fff;color: #000;cursor: pointer;" onclick="window.location.href='artikel?nya=<?= $url; ?>'">
+                          <?php $string = strip_tags($row['content']);
+                          if (strlen($string) > 100) {
+                            echo substr($string, 0, 100) . "...";
+                          }
+                          ?>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+              <?php }
+              } ?>
+              <!-- Slide-end -->
+            </div>
 
-              <div class="widget clearfix">
-                <div class="category-widget">
-                  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9126874274957459" crossorigin="anonymous"></script>
-                  <!-- Wikisuku -->
-                  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9126874274957459" data-ad-slot="8033833224" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                  <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                  </script>
-                </div><!-- end category -->
-              </div><!-- end widget -->
-
-              <div class="widget clearfix">
-                <h4 class="widget-title">Kegiatan</h4>
-                <div class="category-widget">
-                  <ul>
-                    <?php if (mysqli_num_rows($takeKegiatan2) > 0) {
-                      while ($row = mysqli_fetch_assoc($takeKegiatan2)) {
-                        $nama_kegiatan = str_replace(' ', '-', $row['nama_kegiatan']); ?>
-                        <li><a href="kegiatan?tentang=<?= $nama_kegiatan ?>"><?= $row['nama_kegiatan'] ?></a></li>
-                    <?php }
-                    } ?>
-                  </ul>
-                </div>
-                <!-- end category -->
+            <div class="tranding-slider-control">
+              <div class="swiper-button-prev slider-arrow">
+                <ion-icon name="arrow-back-outline"></ion-icon>
               </div>
-              <!-- end widget -->
-            </div><!-- end col -->
-          </div><!-- end row -->
-        </div><!-- end container -->
-      </section><!-- end section -->
+              <div class="swiper-button-next slider-arrow">
+                <ion-icon name="arrow-forward-outline"></ion-icon>
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+
+          </div>
+        </div>
+      </section>
     <?php } ?>
 
+
     <?php require_once("resources/footer.php") ?>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script>
+      var TrandingSlider = new Swiper('.tranding-slider', {
+        effect: 'coverflow',
+        grabCursor: true,
+        centeredSlides: true,
+        loop: true,
+        slidesPerView: 'auto',
+        coverflowEffect: {
+          rotate: 0,
+          stretch: 0,
+          depth: 100,
+          modifier: 2.5,
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        }
+      });
+    </script>
 
 </body>
 

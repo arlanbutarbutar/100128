@@ -1,15 +1,9 @@
 <footer class="footer secondary-footer">
   <div class="container">
     <div class="row">
-      <div class="col-md-6 col-sm-6 col-xs-12">
+      <div class="col-md-12 col-sm-12 col-xs-12">
         <p>Copyright © <?= date("Y") ?> <a style="cursor: pointer;" onclick="window.open('https://netmedia-framecode.com', '_blank')">Netmedia Framecode</a> . All rights reserved. Powered By APRILIANA ROFIYANI MI DEDE</p>
       </div>
-
-      <div class="col-md-6 col-sm-6 col-xs-12">
-        <ul class="list-inline">
-          <li>Designed: <a href="https://gui.netmedia-framecode.com" target="_blank">GUI Netmedia Framecode</a></li>
-        </ul>
-      </div><!-- end col -->
     </div><!-- end row -->
   </div><!-- end container -->
 </footer><!-- end second footer -->

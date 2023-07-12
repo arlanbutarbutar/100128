@@ -140,15 +140,89 @@ if (isset($_SESSION["data-user"])) {
   {
     global $conn;
     $id_kegiatan = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id-kegiatan']))));
-    $sub_kegiatan = mysqli_query($conn, "SELECT * FROM sub_kegiatan WHERE id_kegiatan='$id_kegiatan'");
-    if (mysqli_num_rows($sub_kegiatan) > 0) {
-      while ($row = mysqli_fetch_assoc($sub_kegiatan)) {
-        $id_sub_kegiatan = $row['id_sub_kegiatan'];
-        mysqli_query($conn, "DELETE FROM artikel WHERE id_sub_kegiatan='$id_sub_kegiatan'");
-      }
-    }
-    mysqli_query($conn, "DELETE FROM sub_kegiatan WHERE id_kegiatan='$id_kegiatan'");
+
     mysqli_query($conn, "DELETE FROM kegiatan WHERE id_kegiatan='$id_kegiatan'");
+    return mysqli_affected_rows($conn);
+  }
+  function add_data_kegiatan($data)
+  {
+    global $conn, $baseURL;
+    $id_kegiatan = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id_kegiatan']))));
+    $col_image = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['col_image']))));
+    $path = "../assets/images/kegiatan/";
+    $fileName = basename($_FILES["avatar"]["name"]);
+    $fileName = str_replace(" ", "-", $fileName);
+    $fileName_encrypt = crc32($fileName);
+    $ekstensiGambar = explode('.', $fileName);
+    $ekstensiGambar = strtolower(end($ekstensiGambar));
+    $imageUploadPath = $path . $fileName_encrypt . "." . $ekstensiGambar;
+    $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION);
+    $allowTypes = array('jpg', 'png', 'jpeg');
+    if (in_array($fileType, $allowTypes)) {
+      $imageTemp = $_FILES["avatar"]["tmp_name"];
+      compressImage($imageTemp, $imageUploadPath, 75);
+      $url_image = $baseURL . "assets/images/kegiatan/" . $fileName_encrypt . "." . $ekstensiGambar;
+    } else {
+      $_SESSION['message-danger'] = "Maaf, hanya file gambar JPG, JPEG, dan PNG yang diizinkan.";
+      $_SESSION['time-message'] = time();
+      return false;
+    }
+    $judul = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['judul']))));
+    $deskripsi = $data['deskripsi'];
+
+    mysqli_query($conn, "INSERT INTO data_kegiatan(id_kegiatan,col_image,slug_image,judul,deskripsi) VALUES('$id_kegiatan','$col_image','$url_image','$judul','$deskripsi')");
+    return mysqli_affected_rows($conn);
+  }
+  function edit_data_kegiatan($data)
+  {
+    global $conn, $baseURL;
+    $id_data_kegiatan = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id_data_kegiatan']))));
+    $id_kegiatan = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id_kegiatan']))));
+    $col_image = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['col_image']))));
+    $avatar = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['avatarOld']))));
+    if (!empty($_FILES['avatar']["name"])) {
+      $path = "../assets/images/kegiatan/";
+      $fileName = basename($_FILES["avatar"]["name"]);
+      $fileName = str_replace(" ", "-", $fileName);
+      $fileName_encrypt = crc32($fileName);
+      $ekstensiGambar = explode('.', $fileName);
+      $ekstensiGambar = strtolower(end($ekstensiGambar));
+      $imageUploadPath = $path . $fileName_encrypt . "." . $ekstensiGambar;
+      $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION);
+      $allowTypes = array('jpg', 'png', 'jpeg');
+      if (in_array($fileType, $allowTypes)) {
+        $imageTemp = $_FILES["avatar"]["tmp_name"];
+        compressImage($imageTemp, $imageUploadPath, 75);
+        $unwanted_characters = $baseURL . "/assets/images/kegiatan/";
+        $remove_avatar = str_replace($unwanted_characters, "", $avatar);
+        unlink($path . $remove_avatar);
+        $url_image = $baseURL . "assets/images/kegiatan/" . $fileName_encrypt . "." . $ekstensiGambar;
+      } else {
+        $_SESSION['message-danger'] = "Sorry, only JPG, JPEG and PNG image files are allowed.";
+        $_SESSION['time-message'] = time();
+        return false;
+      }
+    } else if (empty($_FILE['avatar']["name"])) {
+      $url_image = $avatar;
+    }
+    $judul = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['judul']))));
+    $deskripsi = $data['deskripsi'];
+
+    mysqli_query($conn, "UPDATE data_kegiatan SET id_kegiatan='$id_kegiatan', col_image='$col_image', slug_image='$url_image', judul='$judul', deskripsi='$deskripsi' WHERE id_data_kegiatan='$id_data_kegiatan'");
+    return mysqli_affected_rows($conn);
+  }
+  function delete_data_kegiatan($data)
+  {
+    global $conn, $baseURL;
+    $id_data_kegiatan = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id_data_kegiatan']))));
+    $avatar = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['avatarOld']))));
+
+    $path = "../assets/images/kegiatan/";
+    $unwanted_characters = $baseURL . "assets/images/kegiatan/";
+    $remove_avatar = str_replace($unwanted_characters, "", $avatar);
+    unlink($path . $remove_avatar);
+
+    mysqli_query($conn, "DELETE FROM data_kegiatan WHERE id_data_kegiatan='$id_data_kegiatan'");
     return mysqli_affected_rows($conn);
   }
   function add_sub_kegiatan($data)
@@ -189,7 +263,6 @@ if (isset($_SESSION["data-user"])) {
   {
     global $conn;
     $id_sub_kegiatan = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id-sub-kegiatan']))));
-    mysqli_query($conn, "DELETE FROM artikel WHERE id_sub_kegiatan='$id_sub_kegiatan'");
     mysqli_query($conn, "DELETE FROM sub_kegiatan WHERE id_sub_kegiatan='$id_sub_kegiatan'");
     return mysqli_affected_rows($conn);
   }
