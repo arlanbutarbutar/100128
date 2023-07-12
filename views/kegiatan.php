@@ -243,10 +243,10 @@ $_SESSION["page-url"] = "kegiatan";
                                     <td><textarea cols="30" rows="10" style="line-height: 15px;" readonly><?= strip_tags($row['deskripsi']) ?></textarea></td>
                                     <td class="d-flex justify-content-center">
                                       <div class="col">
-                                        <button type="button" class="btn btn-warning btn-sm text-white rounded-0 border-0" style="height: 30px;" data-bs-toggle="modal" data-bs-target="#ubah<?= $row["id_data_kegiatan"] ?>">
+                                        <button type="button" class="btn btn-warning btn-sm text-white rounded-0 border-0" style="height: 30px;" data-bs-toggle="modal" data-bs-target="#ubah-kegiatan<?= $row["id_data_kegiatan"] ?>">
                                           <i class="bi bi-pencil-square"></i>
                                         </button>
-                                        <div class="modal fade" id="ubah<?= $row["id_data_kegiatan"] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="ubah-kegiatan<?= $row["id_data_kegiatan"] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                           <div class="modal-dialog">
                                             <div class="modal-content">
                                               <div class="modal-header border-bottom-0 shadow">
@@ -313,10 +313,10 @@ $_SESSION["page-url"] = "kegiatan";
                                         </div>
                                       </div>
                                       <div class="col">
-                                        <button type="button" class="btn btn-danger btn-sm text-white rounded-0 border-0" style="height: 30px;" data-bs-toggle="modal" data-bs-target="#hapus<?= $row["id_data_kegiatan"] ?>">
+                                        <button type="button" class="btn btn-danger btn-sm text-white rounded-0 border-0" style="height: 30px;" data-bs-toggle="modal" data-bs-target="#hapus-kegiatan<?= $row["id_data_kegiatan"] ?>">
                                           <i class="bi bi-trash3"></i>
                                         </button>
-                                        <div class="modal fade" id="hapus<?= $row["id_data_kegiatan"] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="hapus-kegiatan<?= $row["id_data_kegiatan"] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                           <div class="modal-dialog">
                                             <div class="modal-content">
                                               <div class="modal-header border-bottom-0 shadow">
